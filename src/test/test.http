@@ -1,0 +1,7 @@
+###
+GET http://localhost:8080/get?key=0
+
+
+
+###
+POST http://localhost:8080/set?key=0&value=test
