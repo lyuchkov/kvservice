@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "default.ttl",
+      "type": "java.lang.Long",
+      "description": "Default time in seconds to life of values."
+  }
+] }

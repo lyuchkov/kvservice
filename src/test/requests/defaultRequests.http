@@ -1,0 +1,49 @@
+###
+POST http://localhost:8080/set?key=1&value=SomeValue&ttl=10
+
+
+###
+POST http://localhost:8080/set?key=asdasf&value=SomeValue
+
+
+
+
+###
+
+GET  http://localhost:8080/get?key=1
+
+
+
+
+
+###
+
+GET  http://localhost:8080/get?key=2
+
+
+
+
+
+###
+DELETE http://localhost:8080/remove?key=2
+
+
+###
+DELETE http://localhost:8080/remove?key=asb
+
+
+
+###
+POST http://localhost:8080/set?key=1&value=SomeValue&ttl=10
+
+###
+
+GET  http://localhost:8080/get?key=1
+
+
+
+###
+DELETE http://localhost:8080/remove?key=1
+
+###
+POST http://localhost:8080/set
