@@ -17,7 +17,7 @@ public class AccessController {
         try {
             key = Long.parseLong(strKey);
         } catch (NumberFormatException e) {
-            return "Incorrect number format.";
+            return "Incorrect number format";
         }
         String s = dataService.get(key);
         if (s != null) return s;
@@ -32,7 +32,7 @@ public class AccessController {
         try {
             key = Long.parseLong(strKey);
         } catch (NumberFormatException e) {
-            return "Incorrect number format.";
+            return "Incorrect number format";
         }
         if (ttl != null) {
             dataService.put(key, value, Long.parseLong(ttl));
@@ -44,12 +44,13 @@ public class AccessController {
     }
 
     @DeleteMapping("/remove")
+    @ResponseBody
     public String remove(@RequestParam(value = "key") String strKey) {
         long key;
         try {
             key = Long.parseLong(strKey);
         } catch (NumberFormatException e) {
-            return "Incorrect number format.";
+            return "Incorrect number format";
         }
         String s = dataService.remove(key);
         if (s != null) return s;

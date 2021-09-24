@@ -1,26 +1,20 @@
 package ru.lyuchkov.kvservice.service;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import ru.lyuchkov.kvservice.container.StringDataContainer;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestPropertySource(locations = "classpath:application.properties")
 class StringDataServiceTest {
-    private static StringDataService dataService;
 
     private final String testValue = "Test value";
     private final long customTtl = 60 * 30;
-
-    @BeforeAll
-    static void init() {
-        dataService = new StringDataService(new StringDataContainer());
-    }
+    @Autowired
+    private StringDataService dataService;
 
     @Test
     public void dataServiceLoadsTest() {
@@ -29,10 +23,11 @@ class StringDataServiceTest {
 
     @Test
     public void dataServiceDataContainerLoadsTest() {
-        assertThat(dataService.container).isNotNull();
+        assertNotNull(dataService.container);
     }
 
     @Test
+    @BeforeEach
     void putTest() {
         assertDoesNotThrow(() -> dataService.put(0, testValue));
     }
@@ -44,11 +39,11 @@ class StringDataServiceTest {
 
     @Test
     void getTest() {
-        assertThat(dataService.get(0)).isEqualTo(testValue);
+        assertEquals(dataService.get(0), testValue);
     }
 
     @Test
-    void getWithTtlTest() {
+    void getWithWithTtlTest() {
         assertThat(dataService.get(1)).isEqualTo(testValue);
     }
 

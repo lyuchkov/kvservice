@@ -10,15 +10,19 @@ public class Data<T> {
     @Value("#{new Long('${default.ttl}')}")
     private long defaultTtlSeconds;
 
+
     public Data(T value, long timeToLifeSeconds) {
         this.value = value;
         setTimeToLife(timeToLifeSeconds);
-
     }
 
     public Data(T value) {
         this.value = value;
         setTimeToLife();
+        configureDefaultTtl();
+    }
+    private void configureDefaultTtl(){
+        if(defaultTtlSeconds==0) defaultTtlSeconds = 60;
     }
 
     public T getValue() {

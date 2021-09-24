@@ -1,10 +1,7 @@
-package ru.lyuchkov.kvservice;
+package ru.lyuchkov.kvservice.entity;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.lyuchkov.kvservice.entity.Data;
-
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

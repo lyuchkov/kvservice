@@ -1,15 +1,15 @@
 package ru.lyuchkov.kvservice.service;
 
 import org.springframework.stereotype.Service;
-import ru.lyuchkov.kvservice.container.StringDataContainer;
+import ru.lyuchkov.kvservice.container.DataContainer;
 import ru.lyuchkov.kvservice.entity.Data;
 import ru.lyuchkov.kvservice.utils.TtlUtil;
 
 @Service
 public class StringDataService {
-    public final StringDataContainer container;
+    public final DataContainer<String> container;
 
-    public StringDataService(StringDataContainer container) {
+    public StringDataService(DataContainer<String> container) {
         this.container = container;
     }
 
@@ -23,7 +23,7 @@ public class StringDataService {
 
     public String get(long key) {
         Data<String> data = container.getData(key);
-        if(data!=null) {
+        if (data != null) {
             if (TtlUtil.isTimeLimitOver(data.getEndDate())) {
                 container.remove(key);
                 return "The lifetime value has ended";
@@ -35,7 +35,7 @@ public class StringDataService {
 
     public String remove(long key) {
         Data<String> data = container.getData(key);
-        if(data!=null) {
+        if (data != null) {
             if (TtlUtil.isTimeLimitOver(data.getEndDate())) {
                 container.remove(key);
                 return null;
