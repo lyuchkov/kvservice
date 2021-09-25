@@ -18,10 +18,10 @@ class TtlUtilTest {
     TtlUtil ttlUtil;
     @Test
     void iteratorTest() throws InterruptedException {
-        dataContainer.put(0, "value");
+        dataContainer.put(0, "value", 500);
         dataContainer.put(1, "value600", 600);
-        dataContainer.put(2, "value10", 10 );
-        Thread.sleep(60);
+        dataContainer.put(2, "value10", 1 );
+        Thread.sleep(1000);
         ttlUtil.removeAllLifelessValues();
         int count =0;
         Iterator<Long> secondLongIterator = dataContainer.keyIterator();
@@ -29,6 +29,6 @@ class TtlUtilTest {
             count++;
             secondLongIterator.next();
         }
-        assertEquals(count, 2);
+        assertEquals(2, count);
     }
 }

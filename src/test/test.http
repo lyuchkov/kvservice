@@ -1,4 +1,12 @@
+POST  http://localhost:8080/set?key=0&value=badkey&ttl=90000
 ###
-POST http://localhost:8080/set?key=0&value=test
+POST http://localhost:8080/load
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="current.container"
+
+//here was the absolute path to the custom container file
+--boundary--
 ###
-GET http://localhost:8080/pump
+GET http://localhost:8080/get?key=0

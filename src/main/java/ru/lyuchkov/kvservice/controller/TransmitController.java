@@ -1,12 +1,18 @@
 package ru.lyuchkov.kvservice.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.lyuchkov.kvservice.service.StringTransmitService;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 @RestController
 public class TransmitController {
@@ -16,36 +22,35 @@ public class TransmitController {
         this.transmitService = transmitService;
     }
 
-    @GetMapping("/pump")
-    public void download(HttpServletResponse response) {
+    @GetMapping("/dump")
+    public ResponseEntity<Resource> download(HttpServletResponse response) throws FileNotFoundException {
         File serializedContainer = transmitService.downloadCurrentContainer();
-        response.setContentType("application/container");
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=" + serializedContainer.getName();
-
-        response.setHeader(headerKey, headerValue);
-
-        try {
-            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(serializedContainer));
-            ServletOutputStream outputStream = response.getOutputStream();
-            byte[] buffer = new byte[8192];
-            int bytesRead = -1;
-            while((bytesRead = inputStream.read(buffer)) != -1){
-                outputStream.write(buffer, 0, bytesRead);
-            }
-            inputStream.close();
-            outputStream.flush();
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-
-
+        Resource file = transmitService.getFileAsResource(serializedContainer);
+        HttpHeaders headers = transmitService.prepareHeaderForFileReturn(serializedContainer.getName(), response);
+        return new ResponseEntity<>(file, headers, HttpStatus.OK);
     }
-    //todo Загружает состояние хранилища из файла, созданного операцией dump
-    // + проверка каждого и очистка от "мертвых значений"
+
+    @PostMapping("/load")
+    public ResponseEntity<String> load(@RequestParam("file") MultipartFile multipartFile) {
+        File file = new File("src/main/resources/serialized/current.container");
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(multipartFile.getBytes());
+            fos.close();
+            transmitService.uploadDataContainer();
+            return new ResponseEntity<>("The file uploaded successfully", HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>("The file was not uploaded", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public String handleFileNotFoundException() {
+        return "File not found";
+    }
+
+    @ExceptionHandler(IOException.class)
+    public String handleIOException() {
+        return "IO exception";
+    }
 }

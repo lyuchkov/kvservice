@@ -12,6 +12,7 @@ public class SerializeUtil<V> {
         FileOutputStream fos = new FileOutputStream(file);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(container);
+        fos.close();
         oos.close();
     }
     @SuppressWarnings({"unchecked"})
@@ -19,7 +20,8 @@ public class SerializeUtil<V> {
         File file = new File("src/main/resources/serialized/current.container");
         FileInputStream fis = new FileInputStream(file);
         ObjectInputStream ois = new ObjectInputStream(fis);
-        Object o = ois.readObject();
-        return o instanceof DataContainer ? (DataContainer<V>) o : null;
+        fis.close();
+        ois.close();
+        return (DataContainer<V>) ois.readObject();
     }
 }

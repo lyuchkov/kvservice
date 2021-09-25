@@ -6,7 +6,6 @@ import ru.lyuchkov.kvservice.entity.Data;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
 
 @Component
 public class DataContainer<V> implements Container<V> {

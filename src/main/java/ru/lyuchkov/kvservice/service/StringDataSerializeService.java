@@ -11,12 +11,14 @@ import java.io.IOException;
 public class StringDataSerializeService {
     private final SerializeUtil<String> serializeUtil;
     private final TtlUtil ttlUtil;
-    private DataContainer<String> dataContainer;
+    private final DataContainer<String> dataContainer;
+    private final StringDataService dataService;
 
-    public StringDataSerializeService(SerializeUtil<String> serializeUtil, TtlUtil ttlUtil, DataContainer<String> dataContainer) {
+    public StringDataSerializeService(SerializeUtil<String> serializeUtil, TtlUtil ttlUtil, DataContainer<String> dataContainer,  StringDataService dataService) {
         this.serializeUtil = serializeUtil;
         this.ttlUtil = ttlUtil;
         this.dataContainer = dataContainer;
+        this.dataService = dataService;
     }
 
     public void writeContainer() {
@@ -32,7 +34,7 @@ public class StringDataSerializeService {
         try {
             DataContainer<String> container = serializeUtil.readStringDataContainer();
             if (container != null) {
-                this.dataContainer = container;
+                dataService.setContainer(container);
                 ttlUtil.removeAllLifelessValues();
             }
         } catch (IOException | ClassNotFoundException e) {

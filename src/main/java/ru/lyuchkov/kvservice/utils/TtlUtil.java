@@ -1,6 +1,5 @@
 package ru.lyuchkov.kvservice.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.lyuchkov.kvservice.container.DataContainer;
 
@@ -19,11 +18,11 @@ public class TtlUtil {
         return new Date().after(endDate);
     }
 
-    public void removeAllLifelessValues(){
+    public void removeAllLifelessValues() {
         Iterator<Long> longIterator = dataContainer.keyIterator();
-        while (longIterator.hasNext()){
+        while (longIterator.hasNext()) {
             long key = longIterator.next();
-            if (isTimeLimitOver(dataContainer.getData(key).getEndDate())){
+            if (isTimeLimitOver(dataContainer.getData(key).getEndDate())) {
                 dataContainer.remove(key);
             }
         }

@@ -7,7 +7,7 @@ import ru.lyuchkov.kvservice.utils.TtlUtil;
 
 @Service
 public class StringDataService {
-    public final DataContainer<String> container;
+    public DataContainer<String> container;
     public final TtlUtil ttlUtil;
 
     public StringDataService(DataContainer<String> container, TtlUtil ttlUtil) {
@@ -47,5 +47,9 @@ public class StringDataService {
                 return value;
             }
         } else return null;
+    }
+
+    public void setContainer(DataContainer<String> container) {
+        this.container = container;
     }
 }
