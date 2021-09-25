@@ -8,9 +8,11 @@ import ru.lyuchkov.kvservice.utils.TtlUtil;
 @Service
 public class StringDataService {
     public final DataContainer<String> container;
+    public final TtlUtil ttlUtil;
 
-    public StringDataService(DataContainer<String> container) {
+    public StringDataService(DataContainer<String> container, TtlUtil ttlUtil) {
         this.container = container;
+        this.ttlUtil = ttlUtil;
     }
 
     public void put(long key, String value) {
@@ -24,7 +26,7 @@ public class StringDataService {
     public String get(long key) {
         Data<String> data = container.getData(key);
         if (data != null) {
-            if (TtlUtil.isTimeLimitOver(data.getEndDate())) {
+            if (ttlUtil.isTimeLimitOver(data.getEndDate())) {
                 container.remove(key);
                 return "The lifetime value has ended";
             } else {
@@ -36,7 +38,7 @@ public class StringDataService {
     public String remove(long key) {
         Data<String> data = container.getData(key);
         if (data != null) {
-            if (TtlUtil.isTimeLimitOver(data.getEndDate())) {
+            if (ttlUtil.isTimeLimitOver(data.getEndDate())) {
                 container.remove(key);
                 return null;
             } else {

@@ -4,11 +4,12 @@ package ru.lyuchkov.kvservice.container;
 import org.springframework.stereotype.Component;
 import ru.lyuchkov.kvservice.entity.Data;
 
-import java.io.Serializable;
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 @Component
-public class DataContainer<V> implements Serializable {
+public class DataContainer<V> implements Container<V> {
     private final ConcurrentHashMap<Long, Data<V>> hashMap;
 
     public DataContainer() {
@@ -41,5 +42,9 @@ public class DataContainer<V> implements Serializable {
 
     public Data<V> getData(long key) {
         return hashMap.getOrDefault(key, null);
+    }
+
+    public Iterator<Long> keyIterator() {
+        return hashMap.keySet().stream().iterator();
     }
 }

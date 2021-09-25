@@ -2,9 +2,10 @@ package ru.lyuchkov.kvservice.entity;
 
 import org.springframework.beans.factory.annotation.Value;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Data<T> {
+public class Data<T> implements Serializable {
     private T value;
     private Date endDate;
     @Value("#{new Long('${default.ttl}')}")
@@ -14,6 +15,7 @@ public class Data<T> {
     public Data(T value, long timeToLifeSeconds) {
         this.value = value;
         setTimeToLife(timeToLifeSeconds);
+        configureDefaultTtl();
     }
 
     public Data(T value) {
