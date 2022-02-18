@@ -12,16 +12,12 @@ public class SerializeUtil<V> {
         FileOutputStream fos = new FileOutputStream(file);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(container);
-        fos.close();
-        oos.close();
     }
     @SuppressWarnings({"unchecked"})
     public DataContainer<V> readStringDataContainer() throws IOException, ClassNotFoundException {
         File file = new File("src/main/resources/serialized/current.container");
         FileInputStream fis = new FileInputStream(file);
         ObjectInputStream ois = new ObjectInputStream(fis);
-        fis.close();
-        ois.close();
         return (DataContainer<V>) ois.readObject();
     }
 }

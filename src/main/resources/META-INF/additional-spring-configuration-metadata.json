@@ -1,8 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "default.ttl",
-      "type": "java.lang.Long",
-      "description": "Default value for ttl."
-  }
-] }
